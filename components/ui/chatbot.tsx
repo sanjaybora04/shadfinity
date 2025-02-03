@@ -10,11 +10,11 @@ import { ScrollArea } from "./scroll-area";
 type flowNode = {
     message?: string,
     options?: string[],
-    inputboxDisabled?: Boolean,
-    validation?: ((value: any) => Promise<Boolean | string> | Boolean | string)
+    inputboxDisabled?: boolean,
+    validation?: ((value: any) => Promise<boolean | string> | boolean | string)
     next?: string | ((value: any) => string),
     delay?: number,
-    autoNext?: Boolean
+    autoNext?: boolean
 }
 
 export type configType = {
@@ -23,7 +23,7 @@ export type configType = {
     initialStep: string,
     tooltip?: string,
     defaultOpen?: {
-        open: Boolean,
+        open: boolean,
         delay?: number
     },
     flow: {
@@ -144,8 +144,8 @@ export default function Chatbot({ config }: { config: configType }) {
         const step = configRef.current.flow[_step]
 
         // set input disabled
-        if (step.inputboxDisabled) { inputRef.current && (inputRef.current.disabled = true) }
-        else { inputRef.current && (inputRef.current.disabled = false) }
+        if (step.inputboxDisabled) { if(inputRef.current)inputRef.current.disabled = true }
+        else { if(inputRef.current)inputRef.current.disabled = false }
 
         // add message
         setMessages((prev: any) => ([...prev, <Loader key={prev.length} image={configRef.current.image} />]))

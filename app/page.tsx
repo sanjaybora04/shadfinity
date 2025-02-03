@@ -1,6 +1,6 @@
 import * as React from "react"
 import { OpenInV0Button } from "@/components/open-in-v0-button"
-import { HelloWorld } from "@/registry/chatbot/chatbot"
+import Chatbot from "@/registry/chatbot/chatbot"
 import { ExampleForm } from "@/registry/example-form/example-form"
 import PokemonPage from "@/registry/complex-component/page"
 
@@ -20,12 +20,21 @@ export default function Home() {
         <div className="flex flex-col gap-4 border rounded-lg p-4 min-h-[450px] relative">
           <div className="flex items-center justify-between">
             <h2 className="text-sm text-muted-foreground sm:pl-3">
-              A simple hello world component
+              A chatbot component with customisable flow
             </h2>
-            <OpenInV0Button name="hello-world" className="w-fit" />
+            <OpenInV0Button name="chatbot" className="w-fit" />
           </div>
           <div className="flex items-center justify-center min-h-[400px] relative">
-            <HelloWorld />
+            <Chatbot config={{
+              name:"chatbot",
+              image:"https://sanjaybora.in/images/chatbot.png",
+              initialStep:'start',
+              flow:{
+                start:{
+                  message:'hello'
+                }
+              }
+            }} />
           </div>
         </div>
 

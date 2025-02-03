@@ -1,18 +1,18 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "name": "acme",
-  "homepage": "https://acme.com",
+  "name": "Sanjay Bora",
+  "homepage": "https://shadfinity.sanjaybora.in",
   "items": [
     {
-      "name": "hello-world",
-      "type": "registry:component",
-      "title": "Hello World",
-      "description": "A simple hello world component",
-      "registryDependencies": ["button"],
+      "name": "chatbot",
+      "type": "registry:ui",
+      "title": "Chatbot",
+      "description": "A simple chatbot component with customisable flow",
+      "registryDependencies": ["button","card","input","scroll-area"],
       "files": [
         {
-          "path": "registry/hello-world/hello-world.tsx",
-          "type": "registry:component"
+          "path": "registry/chatbot/chatbot.tsx",
+          "type": "registry:ui"
         }
       ]
     },

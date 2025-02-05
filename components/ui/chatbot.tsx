@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area"
 
 type flowNode = {
     message?: string,
@@ -31,7 +31,7 @@ export type configType = {
     }
 }
 
-function Loader({image}:{image?:string}) {
+function Loader({ image }: { image: string }) {
     return (
         <div className="my-2 flex gap-2">
             <img src={image} className="bg-primary text-primary-foreground rounded-full w-10 h-10 flex-none border border-primary" />
@@ -54,7 +54,7 @@ function UserMessage({ msg }: { msg: any }) {
     )
 }
 
-function Message({ message,image }: { message: any,image?:string }) {
+function Message({ message, image }: { message: any, image: string }) {
     return (
         <div className="flex gap-2 my-2">
             <img src={image} className="bg-primary text-primary-foreground rounded-full w-10 h-10 flex-none border border-primary" />
@@ -111,10 +111,10 @@ export default function Chatbot({ config }: { config: configType }) {
         if (v == true) {
             return true
         } else if (v == false) {
-            setMessages((prev: any) => ([...prev, <Message message={'⚠️Invalid Input!! Try again'} key={prev.length} />]))
+            setMessages((prev: any) => ([...prev, <Message image={configRef.current.image!} message={'⚠️Invalid Input!! Try again'} key={prev.length} />]))
             return false
         } else {
-            setMessages((prev: any) => ([...prev, <Message message={v} key={prev.length} />]))
+            setMessages((prev: any) => ([...prev, <Message image={configRef.current.image!} message={v} key={prev.length} />]))
             return false
         }
     }
@@ -144,16 +144,16 @@ export default function Chatbot({ config }: { config: configType }) {
         const step = configRef.current.flow[_step]
 
         // set input disabled
-        if (step.inputboxDisabled) { if(inputRef.current)inputRef.current.disabled = true }
-        else { if(inputRef.current)inputRef.current.disabled = false }
+        if (step.inputboxDisabled) { if (inputRef.current) inputRef.current.disabled = true }
+        else { if (inputRef.current) inputRef.current.disabled = false }
 
         // add message
-        setMessages((prev: any) => ([...prev, <Loader key={prev.length} image={configRef.current.image} />]))
+        setMessages((prev: any) => ([...prev, <Loader key={prev.length} image={configRef.current.image!} />]))
         setTimeout(() => {
             setMessages((prev: any) => {
                 const m = prev.slice(0, -1);
                 if (step.message) {
-                    m.push(<Message message={step.message} key={m.length} image={configRef.current.image} />)
+                    m.push(<Message message={step.message} key={m.length} image={configRef.current.image!} />)
                 }
                 if (step.options) {
                     m.push(<SingleChoice items={step.options!} onClick={(val: any) => onInput(val, _step)} key={m.length} />)
@@ -228,9 +228,14 @@ export default function Chatbot({ config }: { config: configType }) {
                                 </button>
                             </div>
                         </div>
-                        <ScrollArea ref={scrollViewportRef} className="flex-grow py-2 px-3">
-                            {messages.map((m: any, index: number) => <div key={index}>{m}</div>)}
-                        </ScrollArea>
+                         {/* Using scroll area directly from radix ui because it doesnt pass ref to viewport by default */}
+                        <ScrollAreaPrimitive.Root className="relative overflow-hidden flex-grow py-2 px-3 ">
+                            <ScrollAreaPrimitive.Viewport ref={scrollViewportRef} className="h-full w-full rounded-[inherit]">
+                                {messages.map((m: any, index: number) => <div key={index}>{m}</div>)}
+                            </ScrollAreaPrimitive.Viewport>
+                            <ScrollAreaPrimitive.Scrollbar />
+                            <ScrollAreaPrimitive.Corner />
+                        </ScrollAreaPrimitive.Root>
                         <div className="w-full">
                             <div className="flex">
                                 <Input type='text' ref={inputRef} className="h-12 rounded-r-none" value={input}
@@ -249,7 +254,7 @@ export default function Chatbot({ config }: { config: configType }) {
                             <div className="flex items-center justify-center gap-2 text-sm mt-2">
                                 Built By
                                 <a href="https://shadfinity.sanjaybora.in" target="_blank" className="text-blue-600 hover:underline">
-                                Shadfinity</a>
+                                    Shadfinity</a>
                                 <img src="https://shadfinity.sanjaybora.in/favicon.ico" className="w-4 h-4" />
                             </div>
                         </div>

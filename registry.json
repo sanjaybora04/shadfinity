@@ -9,6 +9,7 @@
       "title": "Chatbot",
       "description": "A simple chatbot component with customisable flow",
       "registryDependencies": ["button","card","input","scroll-area"],
+      "dependencies": ["@radix-ui/react-scroll-area"],
       "files": [
         {
           "path": "components/ui/chatbot.tsx",

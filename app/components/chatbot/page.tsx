@@ -62,7 +62,7 @@ export default function Page() {
 
             <div className="flex flex-col flex-1 gap-4">
                 <div className="border-b">
-                    <h2 className="text-3xl font-semibold mb-2 mt-5">Installation</h2>
+                    <h2 className="text-3xl font-semibold mb-2 mt-10">Installation</h2>
                 </div>
 
                 <div className="relative">
@@ -84,23 +84,10 @@ export default function Page() {
 
             <div className="flex flex-col flex-1 gap-4">
                 <div className="border-b">
-                    <h2 className="text-3xl font-semibold mb-2 mt-5">Usage</h2>
+                    <h2 className="text-3xl font-semibold mb-2 mt-10">Usage</h2>
                 </div>
 
-                <div className="relative">
-                    <Button size='icon' variant='outline' className="absolute top-1 right-1"
-                        onClick={() => {
-                            navigator.clipboard.writeText(chatbot.files[0].content)
-                            toast.success('Code copied to your clipboard')
-                        }}
-                    ><Copy /></Button>
-                    <CodeBlock
-                        language="jsx"
-                        text={`npx shadcn@latest add ${process.env.NEXT_PUBLIC_SITE_URL}/registry/chatbot.json`}
-                        theme={dracula}
-                        showLineNumbers={false}
-                    />
-                </div>
+                
 
             </div>
         </div>

@@ -36,7 +36,7 @@ export default function Page() {
                             </div>
                             <div className="flex items-center justify-center min-h-[400px] relative">
                                 <Button>See below<ArrowDownRight /></Button>
-                                <ChatbotDemo/>
+                                <ChatbotDemo />
                             </div>
                         </> :
                         <>
@@ -84,10 +84,101 @@ export default function Page() {
 
             <div className="flex flex-col flex-1 gap-4">
                 <div className="border-b">
-                    <h2 className="text-3xl font-semibold mb-2 mt-10">Usage</h2>
+                    <h2 className="text-3xl font-semibold mb-2 mt-10">Props</h2>
                 </div>
 
-                
+
+                <table className="w-full border-collapse border border-muted-foreground">
+                    <thead>
+                        <tr className="bg-muted-foreground">
+                            <th className="border border-muted-foreground p-2 text-left">Prop</th>
+                            <th className="border border-muted-foreground p-2 text-left">Type</th>
+                            <th className="border border-muted-foreground p-2 text-left">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td className="border border-muted-foreground p-2">name</td>
+                            <td className="border border-muted-foreground p-2">string</td>
+                            <td className="border border-muted-foreground p-2">The chatbot's display name.</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-muted-foreground p-2">image</td>
+                            <td className="border border-muted-foreground p-2">string (URL)</td>
+                            <td className="border border-muted-foreground p-2">The chatbot's avatar image.</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-muted-foreground p-2">initialStep</td>
+                            <td className="border border-muted-foreground p-2">string</td>
+                            <td className="border border-muted-foreground p-2">The first step in the chatbot flow.</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-muted-foreground p-2">tooltip</td>
+                            <td className="border border-muted-foreground p-2">string</td>
+                            <td className="border border-muted-foreground p-2">Tooltip text displayed with widgit.</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-muted-foreground p-2">defaultOpen</td>
+                            <td className="border border-muted-foreground p-2">boolean</td>
+                            <td className="border border-muted-foreground p-2">Controls chatbot's initial visibility.</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-muted-foreground p-2">flow</td>
+                            <td className="border border-muted-foreground p-2">FlowNode[]</td>
+                            <td className="border border-muted-foreground p-2">Defines chatbot conversation logic.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2 className="text-xl font-bold mt-6">FlowNode</h2>
+                <p className="mt-2">Each flow node in the chatbot has the following properties:</p>
+
+                <table className="w-full border-collapse border border-muted-foreground mt-4">
+                    <thead>
+                        <tr className="bg-muted-foreground">
+                            <th className="border border-muted-foreground p-2 text-left">Property</th>
+                            <th className="border border-muted-foreground p-2 text-left">Type</th>
+                            <th className="border border-muted-foreground p-2 text-left">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td className="border border-muted-foreground p-2">delay</td>
+                            <td className="border border-muted-foreground p-2">number (ms)</td>
+                            <td className="border border-muted-foreground p-2">Delay before showing the message.</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-muted-foreground p-2">message</td>
+                            <td className="border border-muted-foreground p-2">string</td>
+                            <td className="border border-muted-foreground p-2">The message displayed to the user.</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-muted-foreground p-2">options</td>
+                            <td className="border border-muted-foreground p-2">string[]</td>
+                            <td className="border border-muted-foreground p-2">List of selectable responses.</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-muted-foreground p-2">inputboxDisabled</td>
+                            <td className="border border-muted-foreground p-2">boolean</td>
+                            <td className="border border-muted-foreground p-2">Disables the input field.</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-muted-foreground p-2">validation</td>
+                            <td className="border border-muted-foreground p-2">function</td>
+                            <td className="border border-muted-foreground p-2">Function to validate user input. Must return a boolean or string.</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-muted-foreground p-2">next</td>
+                            <td className="border border-muted-foreground p-2">string | function</td>
+                            <td className="border border-muted-foreground p-2">Defines the next step in flow. Can be a string or a function that determines the next step based on input.</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-muted-foreground p-2">autoNext</td>
+                            <td className="border border-muted-foreground p-2">boolean</td>
+                            <td className="border border-muted-foreground p-2">Automatically moves to next step after displaying the message.</td>
+                        </tr>
+                    </tbody>
+                </table>
 
             </div>
         </div>

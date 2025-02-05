@@ -1,5 +1,5 @@
 {
-  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "$schema": "https://ui.shadcn.com/registry.json",
   "name": "chatbot",
   "type": "registry:ui",
   "title": "Chatbot",

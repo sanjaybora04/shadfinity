@@ -1,13 +1,13 @@
 'use client'
 import { OpenInV0Button } from "@/components/open-in-v0-button";
 import { Button } from "@/components/ui/button";
-import Chatbot from "@/registry/chatbot/chatbot";
 import { ArrowDownRight, Bot, Copy } from "lucide-react";
 import { CodeBlock, dracula } from 'react-code-blocks'
 import chatbot from '@/public/r/chatbot.json'
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useState } from "react";
 import { toast } from "sonner";
+import ChatbotDemo from "@/components/chatbot";
 
 export default function Page() {
     const [preview, setPreview] = useState(true)
@@ -36,18 +36,7 @@ export default function Page() {
                             </div>
                             <div className="flex items-center justify-center min-h-[400px] relative">
                                 <Button>See below<ArrowDownRight /></Button>
-                                <Chatbot config={{
-                                    name: "chatbot",
-                                    image: "/images/chatbot.png",
-                                    initialStep: 'start',
-                                    tooltip: 'Hello',
-                                    flow: {
-                                        start: {
-                                            delay: 500,
-                                            message: 'Hi, How may I help you?'
-                                        }
-                                    }
-                                }} />
+                                <ChatbotDemo/>
                             </div>
                         </> :
                         <>

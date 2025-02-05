@@ -200,11 +200,11 @@ export default function Chatbot({ config }: { config: configType }) {
         }
     }, [messages])
     return (
-        <div className="fixed bottom-5 right-5 sm:bottom-10 sm:right-10">
+        <div className="fixed z-50 bottom-5 right-5 sm:bottom-10 sm:right-10">
             <div className="relative">
                 <button className="flex items-center gap-4" onClick={() => setOpen(true)}>
                     {configRef.current.tooltip &&
-                        <div className="bg-white p-2 shadow-[0px_0px_16px_0px_#0000004d] rounded-xl rounded-br-none max-w-64">{configRef.current.tooltip}</div>
+                        <div className=" bg-background p-2 shadow border rounded-xl rounded-br-none max-w-64">{configRef.current.tooltip}</div>
                     }
                     <img src={configRef.current.image} className="w-16 h-16 object-cover rounded-full border border-primary" />
                 </button>
@@ -216,12 +216,12 @@ export default function Chatbot({ config }: { config: configType }) {
                                 {configRef.current.name}
                             </div>
                             <div className="flex gap-2">
-                                <button className="hover:bg-white hover:text-primary rounded-lg duration-300 p-1"
+                                <button className="hover:bg-primary-foreground hover:text-primary rounded-lg duration-300 p-1"
                                     onClick={() => reload()}
                                 >
                                     <RefreshCcw />
                                 </button>
-                                <button className="hover:bg-white hover:text-primary rounded-lg duration-300 p-1"
+                                <button className="hover:bg-primary-foreground hover:text-primary rounded-lg duration-300 p-1"
                                     onClick={() => setOpen(false)}
                                 >
                                     <X />
@@ -247,10 +247,10 @@ export default function Chatbot({ config }: { config: configType }) {
                                 </Button>
                             </div>
                             <div className="flex items-center justify-center gap-2 text-sm mt-2">
-                                <img src="https://sanjaybora.in/favicon.ico" className="w-4 h-4" />
-                                <p>
-                                    Made by <a href="https://sanjaybora.in" target="_blank" className="text-blue-600 hover:underline">Sanjay Bora</a>
-                                </p>
+                                Built By
+                                <a href="https://shadfinity.sanjaybora.in" target="_blank" className="text-blue-600 hover:underline">
+                                Shadfinity</a>
+                                <img src="https://shadfinity.sanjaybora.in/favicon.ico" className="w-4 h-4" />
                             </div>
                         </div>
                     </Card>

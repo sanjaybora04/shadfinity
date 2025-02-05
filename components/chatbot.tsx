@@ -1,12 +1,12 @@
 "use client"
 
-import Chatbot from "@/registry/chatbot/chatbot"
+import Chatbot from "@/components/ui/chatbot"
 
 export default function ChatbotDemo(){
     return (
         <Chatbot config={{
             name: "chatbot",
-            image: "/images/chatbot.png",
+            image: "https://shadfinity.sanjaybora.in/images/chatbot.png",
             initialStep: 'start',
             tooltip: 'Hello',
             flow: {

@@ -12,7 +12,7 @@
     {
       "path": "components/chatbot.tsx",
       "target": "components/chatbot.tsx",
-      "content": "\"use client\"\n\nimport Chatbot from \"@/ui/chatbot\"\n\nexport default function ChatbotDemo(){\n    return (\n        <Chatbot config={{\n            name: \"chatbot\",\n            image: \"/images/chatbot.png\",\n            initialStep: 'start',\n            tooltip: 'Hello',\n            flow: {\n                start: {\n                    delay: 500,\n                    message: 'Hi, How may I help you?'\n                }\n            }\n        }} />\n    )\n}",
+      "content": "\"use client\"\n\nimport Chatbot from \"@/components/ui/chatbot\"\n\nexport default function ChatbotDemo(){\n    return (\n        <Chatbot config={{\n            name: \"chatbot\",\n            image: \"https://shadfinity.sanjaybora.in/images/chatbot.png\",\n            initialStep: 'start',\n            tooltip: 'Hello',\n            flow: {\n                start: {\n                    delay: 500,\n                    message: 'Hi, How may I help you?'\n                }\n            }\n        }} />\n    )\n}",
       "type": "registry:component"
     },
     {

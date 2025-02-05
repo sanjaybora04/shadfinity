@@ -100,12 +100,12 @@ export default function Page() {
                         <tr>
                             <td className="border border-muted-foreground p-2">name</td>
                             <td className="border border-muted-foreground p-2">string</td>
-                            <td className="border border-muted-foreground p-2">The chatbot's display name.</td>
+                            <td className="border border-muted-foreground p-2">The chatbot&apos;s display name.</td>
                         </tr>
                         <tr>
                             <td className="border border-muted-foreground p-2">image</td>
                             <td className="border border-muted-foreground p-2">string (URL)</td>
-                            <td className="border border-muted-foreground p-2">The chatbot's avatar image.</td>
+                            <td className="border border-muted-foreground p-2">The chatbot&apos;s avatar image.</td>
                         </tr>
                         <tr>
                             <td className="border border-muted-foreground p-2">initialStep</td>
@@ -120,7 +120,7 @@ export default function Page() {
                         <tr>
                             <td className="border border-muted-foreground p-2">defaultOpen</td>
                             <td className="border border-muted-foreground p-2">boolean</td>
-                            <td className="border border-muted-foreground p-2">Controls chatbot's initial visibility.</td>
+                            <td className="border border-muted-foreground p-2">Controls chatbot&apos;s initial visibility.</td>
                         </tr>
                         <tr>
                             <td className="border border-muted-foreground p-2">flow</td>

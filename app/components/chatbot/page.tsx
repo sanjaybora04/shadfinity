@@ -68,13 +68,13 @@ export default function Page() {
                 <div className="relative">
                     <Button size='icon' variant='outline' className="absolute top-1 right-1"
                         onClick={() => {
-                            navigator.clipboard.writeText(`npx shadcn@latest add ${process.env.NEXT_PUBLIC_SITE_URL}/registry/chatbot.json`)
+                            navigator.clipboard.writeText(`npx shadcn@latest add ${process.env.NEXT_PUBLIC_BASE_URL}/registry/chatbot.json`)
                             toast.success('Copied')
                         }}
                     ><Copy /></Button>
                     <CodeBlock
                         language="jsx"
-                        text={`npx shadcn@latest add ${process.env.NEXT_PUBLIC_SITE_URL}/registry/chatbot.json`}
+                        text={`npx shadcn@latest add ${process.env.NEXT_PUBLIC_BASE_URL}/registry/chatbot.json`}
                         theme={dracula}
                         showLineNumbers={false}
                     />

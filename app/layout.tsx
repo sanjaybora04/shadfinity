@@ -17,6 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Shadfinity: Advance components for shadcn",
   description: "Get Advance components for shadcn",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL!),
   openGraph:{
     images: '/images/thumbnail.png'
   },

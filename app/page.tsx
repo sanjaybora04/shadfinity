@@ -41,7 +41,7 @@ export default function Home() {
       <footer className="py-8 text-center text-muted-foreground border-t">
         <p>&copy; 2025 Shadfinity. Built with ❤️ on ShadCN.</p>
       </footer>
-      <PageReader/>
+      {/* <PageReader/>
       <div id="content">
         <p>hello How are you doing, hello how are you doing</p>
         <h1>Heading hello how are you doing</h1>
@@ -49,7 +49,7 @@ export default function Home() {
         <h1>Heading hello how are you doing</h1>
         <h1>Heading hello how are you doing</h1>
         <h1>Heading hello how are you doing</h1>
-      </div>
+      </div> */}
     </div>
   )
 }

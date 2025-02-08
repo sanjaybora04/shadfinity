@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import RequestAComponent from "@/components/request-a-component"
 import { Bot } from "lucide-react"
+import PageReader from "@/components/ui/text-to-speech"
 
 // This page displays items from the custom registry.
 // You are free to implement this with your own design as needed.
@@ -40,6 +41,15 @@ export default function Home() {
       <footer className="py-8 text-center text-muted-foreground border-t">
         <p>&copy; 2025 Shadfinity. Built with ❤️ on ShadCN.</p>
       </footer>
+      <PageReader/>
+      <div id="content">
+        <p>hello How are you doing, hello how are you doing</p>
+        <h1>Heading hello how are you doing</h1>
+        <h1>Heading hello how are you doing</h1>
+        <h1>Heading hello how are you doing</h1>
+        <h1>Heading hello how are you doing</h1>
+        <h1>Heading hello how are you doing</h1>
+      </div>
     </div>
   )
 }

@@ -16,6 +16,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Shadfinity: Advance components for shadcn",
   description: "Get Advance components for shadcn",
+  openGraph:{
+    images: '/images/thumbnail.png'
+  },
+  twitter:{
+    card: "summary_large_image",
+    images: '/images/thumbnail.png'
+  }
 };
 
 export default function RootLayout({

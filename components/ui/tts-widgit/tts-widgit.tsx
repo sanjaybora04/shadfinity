@@ -1,14 +1,16 @@
 'use client';
-import { ChevronLeft, ChevronRight, Pause, Play, Settings, Square } from 'lucide-react';
+import { Pause, Play, Settings, SkipBack, SkipForward, Square } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select';
-import { Dialog, DialogContent, DialogTrigger } from './dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { cn } from '@/lib/utils';
 
-export default function PageReader() {
+export default function TextToSpeechWidgit() {
     const allowedTags = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7'];
     const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
     const [selectedVoice, setSelectedVoice] = useState<string>('0');
     const [selectedSpeed, setSelectedSpeed] = useState<string>('1');
+    const [isActive, setIsActive] = useState<boolean>(false)
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [currentPosition, setCurrentPosition] = useState<number>(0);
@@ -33,14 +35,21 @@ export default function PageReader() {
             const selector = allowedTags.map((tag) => `#content ${tag}`).join(', ');
             linesRef.current = document.querySelectorAll(selector);
 
+            utteranceRef.current.addEventListener('boundary', (e) => {
+                setCurrentPosition(e.charIndex);
+            });
+
             return () => {
+                utteranceRef.current.removeEventListener('boundary', function (e) {
+                    setCurrentPosition(e.charIndex);
+                  });
                 speechSynthesis.cancel();
                 speechSynthesis.onvoiceschanged = null;
             };
         } else {
             alert('Text-to-speech is not supported in this browser.');
         }
-    }, [selectedVoice]);
+    }, []);
 
     // Handle voice change
     useEffect(() => {
@@ -55,26 +64,22 @@ export default function PageReader() {
     }, [selectedSpeed]);
 
     // Speak the current line
-    const speakLine = () => {
+    const speakLine = (index:number,position:number) => {
         if (!linesRef.current) return;
 
-        const currentLine = linesRef.current[currentIndex];
+        const currentLine = linesRef.current[index];
         const text = currentLine.textContent;
 
         if (text) {
-            utteranceRef.current.text = text.substring(currentPosition);
+            utteranceRef.current.text = text.substring(position);
             speechSynthesis.speak(utteranceRef.current);
 
-            utteranceRef.current.onboundary = (e) => {
-                setCurrentPosition(e.charIndex);
-            };
-
             utteranceRef.current.onend = () => {
-                if (currentIndex < linesRef.current!.length - 1) {
+                if (index < linesRef.current!.length - 2) {
                     setCurrentIndex((prev) => prev + 1);
                     setCurrentPosition(0);
-                    highlightCurrentLine(currentIndex + 1);
-                    speakLine();
+                    highlightLine(index + 1);
+                    speakLine(index+1,0);
                 } else {
                     stop();
                 }
@@ -84,6 +89,10 @@ export default function PageReader() {
 
     // Play or pause
     const play = () => {
+        setIsActive(true)
+
+        highlightLine(currentIndex)
+        
         if (isPlaying) {
             speechSynthesis.pause();
             setIsPlaying(false);
@@ -91,7 +100,7 @@ export default function PageReader() {
             if (speechSynthesis.paused) {
                 speechSynthesis.resume();
             } else {
-                speakLine();
+                speakLine(currentIndex,currentPosition);
             }
             setIsPlaying(true);
         }
@@ -100,10 +109,11 @@ export default function PageReader() {
     // Stop
     const stop = () => {
         speechSynthesis.cancel();
+        setIsActive(false);
         setIsPlaying(false);
         setCurrentIndex(0);
         setCurrentPosition(0);
-        highlightCurrentLine(0);
+        highlightLine(-1);
     };
 
     // Previous line
@@ -111,10 +121,10 @@ export default function PageReader() {
         if (currentIndex > 0) {
             setCurrentIndex((prev) => prev - 1);
             setCurrentPosition(0);
-            highlightCurrentLine(currentIndex - 1);
+            highlightLine(currentIndex - 1);
             if (isPlaying) {
                 speechSynthesis.cancel();
-                speakLine();
+                speakLine(currentIndex-1,0);
             }
         }
     };
@@ -124,19 +134,19 @@ export default function PageReader() {
         if (linesRef.current && currentIndex < linesRef.current.length - 1) {
             setCurrentIndex((prev) => prev + 1);
             setCurrentPosition(0);
-            highlightCurrentLine(currentIndex + 1);
+            highlightLine(currentIndex + 1);
             if (isPlaying) {
                 speechSynthesis.cancel();
-                speakLine();
+                speakLine(currentIndex+1,0);
             }
         }
     };
 
     // Highlight the current line
-    const highlightCurrentLine = (index: number) => {
+    const highlightLine = (index: number) => {
         if (linesRef.current) {
             linesRef.current.forEach((line, i) => {
-                line.style.backgroundColor = i === index ? '#bae4fe' : 'transparent';
+                line.style.backgroundColor = i === index ? '#78accc' : 'transparent';
             });
 
             const currentLine = linesRef.current[index];
@@ -146,26 +156,26 @@ export default function PageReader() {
 
     return (
         <div>
-            <div id="page-reader-controls" className="flex max-w-fit w-max gap-4 h-10 mx-auto bg-white border shadow border-gray-600 text-gray-600 rounded-lg p-2 px-3 z-[999999]">
-                <button type="button" title="Previous" onClick={previous} className="outline-none hover:scale-125">
-                    <ChevronLeft />
+            <div className={cn("flex gap-3 bg-gray-700 border rounded text-white p-2 w-fit",isActive?"fixed z-50 bottom-2 left-1/2 -translate-x-1/2":"")}>
+                <button type="button" title="Previous" onClick={()=>previous()} className="outline-none hover:scale-125">
+                    <SkipBack className='fill-current' />
                 </button>
-                <button type="button" title="Stop" onClick={stop} className={`outline-none hover:scale-125 ${isPlaying ? '' : 'hidden'}`}>
-                    <Square />
+                <button type="button" title="Stop" onClick={()=>stop()} className={`outline-none hover:scale-125 ${isPlaying ? '' : 'hidden'}`}>
+                    <Square className='fill-current' />
                 </button>
-                <button type="button" title="Play/Pause" onClick={play} className="outline-none hover:scale-125">
-                    {isPlaying ? <Pause /> : <Play />}
+                <button type="button" title="Play/Pause" onClick={()=>play()} className="outline-none hover:scale-125">
+                    {isPlaying ? <Pause className='fill-current' /> : <Play className='fill-current' />}
                 </button>
-                <button type="button" title="Next" onClick={next} className="outline-none hover:scale-125">
-                    <ChevronRight />
+                <button type="button" title="Next" onClick={()=>next()} className="outline-none hover:scale-125">
+                    <SkipForward className='fill-current' />
                 </button>
                 <Dialog>
-                    <DialogTrigger>
+                    <DialogTrigger className='hover:scale-125'>
                         <Settings />
                     </DialogTrigger>
                     <DialogContent>
-                        <div className="p-2">
-                            <label htmlFor="page-reader-speed">Speed:</label>
+                        <div>
+                            <div className='mb-2'>Speed:</div>
                             <Select value={selectedSpeed} onValueChange={setSelectedSpeed}>
                                 <SelectTrigger>
                                     <SelectValue />
@@ -178,8 +188,8 @@ export default function PageReader() {
                                 </SelectContent>
                             </Select>
                         </div>
-                        <div className="p-2">
-                            <label htmlFor="page-reader-voices">Voices:</label>
+                        <div>
+                            <div className='mb-2'>Voices:</div>
                             <Select value={selectedVoice} onValueChange={setSelectedVoice}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select Voice" />

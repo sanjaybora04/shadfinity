@@ -26,6 +26,10 @@ const items = [
     title: "Chatbot",
     url: "/components/chatbot",
   },
+  {
+    title: "Text to speech widgit",
+    url: "/components/text-to-speech-widgit"
+  }
 ]
 
 export function AppSidebar() {

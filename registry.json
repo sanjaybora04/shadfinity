@@ -16,6 +16,27 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "text-to-speech-widgit",
+      "type": "registry:ui",
+      "title": "Text to speech widgit",
+      "description": "Text to speech widgit for blog and article pages",
+      "registryDependencies": ["select","dialog"],
+      "files": [
+        {
+          "path": "components/ui/tts-widgit/index.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "components/ui/tts-widgit/errorboundary.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "components/ui/tts-widgit/tts-widgit.tsx",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

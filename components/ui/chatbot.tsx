@@ -202,7 +202,7 @@ export default function Chatbot({ config }: { config: configType }) {
     return (
         <div className="fixed z-50 bottom-5 right-5 sm:bottom-10 sm:right-10">
             <div className="relative">
-                <button className="flex items-center gap-4" onClick={() => setOpen(true)}>
+                <button id="chatbot-trigger" className="flex items-center gap-4" onClick={() => setOpen(true)}>
                     {configRef.current.tooltip &&
                         <div className=" bg-background p-2 shadow border rounded-xl rounded-br-none max-w-64">{configRef.current.tooltip}</div>
                     }

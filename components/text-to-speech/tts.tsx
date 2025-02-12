@@ -10,7 +10,7 @@ export default function TTS() {
                 <div className="">
                     <ul className="list-disc pl-5 space-y-2 mt-3">
                         <li>
-                            <p>Wrap your content in a container with id "#content".</p>
+                            <p>Wrap your content in a container with id &quot;#content&quot;.</p>
                         </li>
                         <li>
                             <p>The content you want to be read should be inside either a heading tag or a paragraph tag.</p>

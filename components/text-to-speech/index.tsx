@@ -33,7 +33,7 @@ export default function Page() {
                                 <p className="text-sm text-muted-foreground sm:pl-3">
                                     Text to speech widgit for blog and article pages
                                 </p>
-                                <OpenInV0Button name="chatbot" className="w-fit" />
+                                <OpenInV0Button name="text-to-speech-widgit" className="w-fit" />
                             </div>
                             <div className="flex items-center justify-center min-h-[400px] relative">
                                 <TTS/>

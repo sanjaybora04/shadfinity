@@ -42,7 +42,7 @@ export default function Page() {
                         <>
                             <Button size='icon' variant='outline' className="absolute top-7 right-7"
                                 onClick={() => {
-                                    navigator.clipboard.writeText(texttospeechwidgit.files[0].content)
+                                    navigator.clipboard.writeText(texttospeechwidgit.files[0].content!)
                                     toast.success('Copied')
                                 }}
                             ><Copy /></Button>

@@ -26,14 +26,17 @@
       "files": [
         {
           "path": "registry/tts-widgit/index.tsx",
+          "target": "components/ui/tts-widgit/index.tsx",
           "type": "registry:ui"
         },
         {
           "path": "registry/tts-widgit/errorboundary.tsx",
+          "target": "components/ui/tts-widgit/errorboundary.tsx",
           "type": "registry:ui"
         },
         {
           "path": "registry/tts-widgit/tts-widgit.tsx",
+          "target": "components/ui/tts-widgit/tts-widgit.tsx",
           "type": "registry:ui"
         }
       ]

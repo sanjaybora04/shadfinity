@@ -5,7 +5,7 @@
   "items": [
     {
       "name": "chatbot",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Chatbot",
       "description": "A simple chatbot component with customisable flow",
       "registryDependencies": ["button","card","input","scroll-area"],
@@ -19,7 +19,7 @@
     },
     {
       "name": "text-to-speech-widgit",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Text to speech widgit",
       "description": "Text to speech widgit for blog and article pages",
       "registryDependencies": ["select","dialog"],

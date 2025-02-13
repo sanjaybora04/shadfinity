@@ -1,4 +1,4 @@
-import TTSWidgit from "@/components/ui/tts-widgit";
+import TTSWidgit from "@/registry/tts-widgit";
 
 export default function TTS() {
     return (

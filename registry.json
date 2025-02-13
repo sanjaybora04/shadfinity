@@ -12,7 +12,7 @@
       "dependencies": ["@radix-ui/react-scroll-area"],
       "files": [
         {
-          "path": "components/ui/chatbot.tsx",
+          "path": "registry/chatbot.tsx",
           "type": "registry:ui"
         }
       ]
@@ -25,15 +25,15 @@
       "registryDependencies": ["select","dialog"],
       "files": [
         {
-          "path": "components/ui/tts-widgit/index.tsx",
+          "path": "registry/tts-widgit/index.tsx",
           "type": "registry:ui"
         },
         {
-          "path": "components/ui/tts-widgit/errorboundary.tsx",
+          "path": "registry/tts-widgit/errorboundary.tsx",
           "type": "registry:ui"
         },
         {
-          "path": "components/ui/tts-widgit/tts-widgit.tsx",
+          "path": "registry/tts-widgit/tts-widgit.tsx",
           "type": "registry:ui"
         }
       ]

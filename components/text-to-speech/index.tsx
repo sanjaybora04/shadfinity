@@ -7,7 +7,7 @@ import texttospeechwidgit from '@/public/r/text-to-speech-widgit.json'
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useState } from "react";
 import { toast } from "sonner";
-import TTSWidgit from "../ui/tts-widgit";
+import TTSWidgit from "../../registry/tts-widgit";
 import TTS from "./tts";
 
 export default function Page() {

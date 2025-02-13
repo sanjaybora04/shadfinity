@@ -1,6 +1,6 @@
 "use client"
 
-import Chatbot from "@/components/ui/chatbot"
+import Chatbot from "@/registry/chatbot"
 import { useState } from "react"
 
 export default function ChatbotDemo(){

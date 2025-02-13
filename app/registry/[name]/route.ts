@@ -1,3 +1,5 @@
+"use server"
+
 import { NextResponse } from "next/server"
 import path from "path"
 import { promises as fs } from "fs"
@@ -39,8 +41,8 @@ export async function GET(
     // Read all files in parallel.
     const filesWithContent = await Promise.all(
       registryItem.files.map(async (file) => {
-        // const filePath = path.join(process.cwd(), file.path)
-        const content = await fs.readFile(file.path, "utf8")
+        const filePath = path.join(process.cwd(), file.path)
+        const content = await fs.readFile(filePath, "utf8")
         return { ...file, content }
       })
     )

@@ -182,6 +182,16 @@ export default function Page() {
                 </table>
 
             </div>
+            <div className="flex flex-col flex-1 gap-4 mb-44">
+                <div className="border-b">
+                    <h2 className="text-3xl font-semibold mb-2 mt-10">Examples</h2>
+                </div>
+
+                <ul className="list-disc pl-5">
+                    <li><a className="underline" href="https://sanjaybora.in">https://sanjaybora.in</a></li>
+                </ul>
+
+            </div>
         </div>
     )
 }

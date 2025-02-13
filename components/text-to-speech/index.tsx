@@ -92,7 +92,6 @@ export default function Page() {
                     <li><a className="underline" href="https://sanjaybora.in/blog/building-a-web3-voting-app-step-by-step-from-smart-contracts-to-frontend-integration">https://sanjaybora.in/blog/building-a-web3-voting-app-step-by-step-from-smart-contracts-to-frontend-integration</a></li>
                 </ul>
 
-
             </div>
         </div>
     )

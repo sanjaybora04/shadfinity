@@ -59,7 +59,7 @@ function Message({ message, image }: { message: any, image: string }) {
         <div className="flex gap-2 my-2">
             <img src={image} className="bg-primary text-primary-foreground rounded-full w-10 h-10 flex-none border border-primary" />
             <div>
-                <div className="p-2 bg-secondary rounded-lg rounded-b-none whitespace-break-spaces">{message}</div>
+                <div className="p-2 bg-secondary rounded-lg rounded-b-none whitespace-break-spaces break-all">{message}</div>
             </div>
         </div>
     )
@@ -82,7 +82,7 @@ function SingleChoice({ items, onClick }: { items: string[], onClick: any }) {
                                             setVal(item)
                                         }
                                     }} className="w-full">
-                                        <Button className="flex w-full h-full flex-col py-2 px-2 hover:shadow-md" variant={val == item ? 'default' : "outline"}>
+                                        <Button className="flex w-full h-full flex-col py-2 px-2 hover:shadow-md text-wrap" variant={val == item ? 'default' : "outline"}>
                                             {item}
                                         </Button>
                                     </div>

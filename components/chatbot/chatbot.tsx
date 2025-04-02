@@ -45,7 +45,12 @@ export default function ChatbotDemo() {
           start: {
             delay: 500,
             message: "Hi, How may I help you?",
-            options: ["What can you do?", "Form example", "Custom components"],
+            options: [
+              "What can you do?",
+              "Form example",
+              "Custom components",
+              "Multiple choice demo",
+            ],
             inputboxDisabled: true,
             next: (value: any) => {
               if (value == "What can you do?") {
@@ -54,6 +59,8 @@ export default function ChatbotDemo() {
                 return "form_start";
               } else if (value == "Custom components") {
                 return "custom_components";
+              } else if (value == "Multiple choice demo") {
+                return "multiple_choice_demo";
               } else {
                 return "start";
               }
@@ -80,6 +87,36 @@ export default function ChatbotDemo() {
               }
               return "start";
             },
+          },
+          multiple_choice_demo: {
+            delay: 500,
+            message: "Select your interests (choose 2-3):",
+            multipleChoice: {
+              options: [
+                "Web Development",
+                "Mobile Development",
+                "UI/UX Design",
+                "Backend Development",
+                "DevOps",
+                "Machine Learning",
+              ],
+              min: 2,
+              max: 3,
+              submitText: "Continue",
+            },
+            next: (values: string[]) => {
+              setState((prev: { interests?: string[] }) => ({
+                ...prev,
+                interests: values,
+              }));
+              return "multiple_choice_response";
+            },
+          },
+          multiple_choice_response: {
+            delay: 500,
+            message: `You selected: ${state?.interests?.join(", ")}`,
+            autoNext: true,
+            next: "start",
           },
           regular_option_response: {
             delay: 500,

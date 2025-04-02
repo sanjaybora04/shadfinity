@@ -10,6 +10,12 @@ import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 type flowNode = {
   message?: string | React.ReactNode;
   options?: string[] | React.ReactNode[];
+  multipleChoice?: {
+    options: string[] | React.ReactNode[];
+    min?: number;
+    max?: number;
+    submitText?: string;
+  };
   inputboxDisabled?: boolean;
   validation?: (value: any) => Promise<boolean | string> | boolean | string;
   next?: string | ((value: any) => string);
@@ -117,10 +123,98 @@ function SingleChoice({
   );
 }
 
+function MultipleChoice({
+  items,
+  onSubmit,
+  min = 0,
+  max = Infinity,
+  submitText = "Submit",
+}: {
+  items: (string | React.ReactNode)[];
+  onSubmit: (values: string[]) => void;
+  min?: number;
+  max?: number;
+  submitText?: string;
+}) {
+  const [selected, setSelected] = useState<string[]>([]);
+  const [formopen, setFormOpen] = useState(true);
+
+  const handleSelect = (value: string) => {
+    setSelected((prev) => {
+      if (prev.includes(value)) {
+        return prev.filter((v) => v !== value);
+      }
+      if (prev.length >= max) return prev;
+      return [...prev, value];
+    });
+  };
+
+  const handleSubmit = () => {
+    if (selected.length >= min && selected.length <= max) {
+      onSubmit(selected);
+      setFormOpen(false);
+    }
+  };
+
+  return (
+    <>
+      <div className="flex flex-col gap-2">
+        {formopen && (
+          <>
+            <div className="grid grid-cols-2 gap-3">
+              {items.map((item, index) => {
+                const itemValue =
+                  typeof item === "string" ? item : `option-${index}`;
+                return (
+                  <div key={index} className="w-full">
+                    <Button
+                      className="flex w-full h-full flex-col py-2 px-2 hover:shadow-md text-wrap justify-start"
+                      variant={
+                        selected.includes(itemValue) ? "default" : "outline"
+                      }
+                      onClick={() => handleSelect(itemValue)}
+                    >
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selected.includes(itemValue)}
+                          onChange={() => handleSelect(itemValue)}
+                          className="h-4 w-4 rounded border-gray-300"
+                        />
+                        {item}
+                      </div>
+                    </Button>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="flex justify-between items-center mt-2">
+              <span className="text-sm text-muted-foreground">
+                {selected.length < min
+                  ? `Select at least ${min} option${min > 1 ? "s" : ""}`
+                  : selected.length > max
+                    ? `Select at most ${max} option${max > 1 ? "s" : ""}`
+                    : `${selected.length} selected`}
+              </span>
+              <Button
+                onClick={handleSubmit}
+                disabled={selected.length < min || selected.length > max}
+              >
+                {submitText}
+              </Button>
+            </div>
+          </>
+        )}
+      </div>
+    </>
+  );
+}
+
 export default function Chatbot({ config }: { config: configType }) {
   const configRef = useRef<configType>(config);
   const scrollViewportRef = useRef<any>(null);
   const inputRef = useRef<any>(null);
+  const lastMessageRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<any>([]);
   const [input, setInput] = useState("");
@@ -184,6 +278,11 @@ export default function Chatbot({ config }: { config: configType }) {
   function addMessage(_step: string) {
     const step = configRef.current.flow[_step];
 
+    // Clear messages if returning to start
+    if (_step === "start") {
+      setMessages([]);
+    }
+
     // set input disabled
     if (step.inputboxDisabled) {
       if (inputRef.current) inputRef.current.disabled = true;
@@ -213,6 +312,18 @@ export default function Chatbot({ config }: { config: configType }) {
             <SingleChoice
               items={step.options!}
               onClick={(val: any) => onInput(val, _step)}
+              key={m.length}
+            />
+          );
+        }
+        if (step.multipleChoice) {
+          m.push(
+            <MultipleChoice
+              items={step.multipleChoice.options}
+              onSubmit={(values) => onInput(values, _step)}
+              min={step.multipleChoice.min}
+              max={step.multipleChoice.max}
+              submitText={step.multipleChoice.submitText}
               key={m.length}
             />
           );
@@ -251,15 +362,33 @@ export default function Chatbot({ config }: { config: configType }) {
     configRef.current = config;
   }, [config]);
 
-  // scroll to bottom whenever messages are updated
+  // scroll last element to top of viewport whenever messages are updated
   useEffect(() => {
-    const viewport = scrollViewportRef.current;
-    if (viewport) {
-      viewport.scrollTo({
-        top: viewport.scrollHeight,
-        behavior: "smooth", // Smooth scrolling effect
-      });
-    }
+    const scrollToLastMessage = () => {
+      if (lastMessageRef.current && scrollViewportRef.current) {
+        const viewport = scrollViewportRef.current;
+        const lastMessage = lastMessageRef.current;
+
+        // Get the container's height
+        const containerHeight = viewport.clientHeight;
+
+        // Calculate the position to scroll to
+        const scrollPosition = Math.max(
+          0,
+          lastMessage.offsetTop - containerHeight / 2
+        );
+
+        // Scroll to the position
+        viewport.scrollTo({
+          top: scrollPosition,
+          behavior: "smooth",
+        });
+      }
+    };
+
+    // Add a small delay to ensure the message is rendered
+    const timeoutId = setTimeout(scrollToLastMessage, 50);
+    return () => clearTimeout(timeoutId);
   }, [messages]);
   return (
     <div className="fixed z-50 bottom-5 right-5 sm:bottom-10 sm:right-10">
@@ -317,7 +446,14 @@ export default function Chatbot({ config }: { config: configType }) {
                 className="h-full w-full rounded-[inherit]"
               >
                 {messages.map((m: any, index: number) => (
-                  <div key={index}>{m}</div>
+                  <div
+                    key={index}
+                    ref={
+                      index === messages.length - 1 ? lastMessageRef : undefined
+                    }
+                  >
+                    {m}
+                  </div>
                 ))}
               </ScrollAreaPrimitive.Viewport>
               <ScrollAreaPrimitive.Scrollbar />

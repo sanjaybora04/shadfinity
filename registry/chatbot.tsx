@@ -14,7 +14,8 @@ type flowNode = {
     validation?: ((value: any) => Promise<boolean | string> | boolean | string)
     next?: string | ((value: any) => string),
     delay?: number,
-    autoNext?: boolean
+    autoNext?: boolean,
+    render? : (onSubmit:any)=>React.ReactNode
 }
 
 export type configType = {
@@ -65,14 +66,18 @@ function Message({ message, image }: { message: any, image: string }) {
     )
 }
 
-function SingleChoice({ items, onClick }: { items: string[], onClick: any }) {
-    const [formopen, setFormOpen] = useState(true)
+function SingleChoice({ message,image,items, onClick }: { message:any,image:string,items: string[], onClick: any }) {
     const [val, setVal] = useState('')
     return (
         <>
+        <div className="flex gap-2 my-2">
+            <img src={image} className="bg-primary text-primary-foreground rounded-full w-10 h-10 flex-none border border-primary" />
+            <div>
+                <div className="p-2 bg-secondary rounded-lg rounded-b-none whitespace-break-spaces break-all">{message}</div>
+            </div>
+        </div>
             <div className="flex flex-col gap-2">
-                {
-                    formopen && <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-3">
                         {
                             items.map((item, index) => {
                                 return (
@@ -90,15 +95,26 @@ function SingleChoice({ items, onClick }: { items: string[], onClick: any }) {
                             })
                         }
                     </div>
-                }
             </div>
         </>
+    )
+}
+
+function CustomComponent({ component, image }: { component: any, image: string }) {
+    return (
+        <div className="flex gap-2 my-2">
+            <img src={image} className="bg-primary text-primary-foreground rounded-full w-10 h-10 flex-none border border-primary" />
+            <div>
+                <div className="p-2 bg-secondary rounded-lg rounded-b-none whitespace-break-spaces break-all">{component}</div>
+            </div>
+        </div>
     )
 }
 
 export default function Chatbot({ config }: { config: configType }) {
     const configRef = useRef<configType>(config)
     const scrollViewportRef = useRef<any>(null)
+    const lastItemRef = useRef<any>(null)
     const inputRef = useRef<any>(null)
     const [open, setOpen] = useState(false)
     const [messages, setMessages] = useState<any>([])
@@ -119,7 +135,7 @@ export default function Chatbot({ config }: { config: configType }) {
         }
     }
 
-    async function onInput(val: any, _step: string) {
+    async function onSubmit(val: any, _step: string) {
         const step = configRef.current.flow[_step]
         // validation
         if (step.validation) {
@@ -152,11 +168,15 @@ export default function Chatbot({ config }: { config: configType }) {
         setTimeout(() => {
             setMessages((prev: any) => {
                 const m = prev.slice(0, -1);
-                if (step.message) {
-                    m.push(<Message message={step.message} key={m.length} image={configRef.current.image!} />)
-                }
-                if (step.options) {
-                    m.push(<SingleChoice items={step.options!} onClick={(val: any) => onInput(val, _step)} key={m.length} />)
+                if(step.render){
+                    m.push(<CustomComponent component={step.render((val:any)=>onSubmit(val,_step))} image={configRef.current.image!}/>)
+                }else{
+                    if (step.options) {
+                        m.push(<SingleChoice message={step.message} image={configRef.current.image!} items={step.options!} onClick={(val: any) => onSubmit(val, _step)} key={m.length} />)
+                    }
+                    else if(step.message) {
+                        m.push(<Message message={step.message} key={m.length} image={configRef.current.image!} />)
+                    }
                 }
                 return [...m]
             })
@@ -192,9 +212,10 @@ export default function Chatbot({ config }: { config: configType }) {
     // scroll to bottom whenever messages are updated
     useEffect(() => {
         const viewport = scrollViewportRef.current;
-        if (viewport) {
+        const lastItem = lastItemRef.current
+        if (viewport&&lastItem) {
             viewport.scrollTo({
-                top: viewport.scrollHeight,
+                top: lastItem.offsetTop-viewport.offsetTop,
                 behavior: "smooth", // Smooth scrolling effect
             });
         }
@@ -231,9 +252,9 @@ export default function Chatbot({ config }: { config: configType }) {
                          {/* Using scroll area directly from radix ui because it doesnt pass ref to viewport by default */}
                         <ScrollAreaPrimitive.Root className="relative overflow-hidden flex-grow py-2 px-3 ">
                             <ScrollAreaPrimitive.Viewport ref={scrollViewportRef} className="h-full w-full rounded-[inherit]">
-                                {messages.map((m: any, index: number) => <div key={index}>{m}</div>)}
+                                {messages.map((m: any, index: number) => <div ref={index===messages.length-1?lastItemRef:null} key={index}>{m}</div>)}
                             </ScrollAreaPrimitive.Viewport>
-                            <ScrollAreaPrimitive.Scrollbar />
+                            <ScrollAreaPrimitive.Scrollbar orientation="vertical" />
                             <ScrollAreaPrimitive.Corner />
                         </ScrollAreaPrimitive.Root>
                         <div className="w-full">
@@ -243,11 +264,11 @@ export default function Chatbot({ config }: { config: configType }) {
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter') {
                                             e.preventDefault();
-                                            onInput(input, currentStep);
+                                            onSubmit(input, currentStep);
                                         }
                                     }}
                                     placeholder="Type your answer..." />
-                                <Button className="h-12 rounded-l-none hover:bg-primary" onClick={() => onInput(input, currentStep)} disabled={inputRef?.current?.disabled}>
+                                <Button className="h-12 rounded-l-none hover:bg-primary" onClick={() => onSubmit(input, currentStep)} disabled={inputRef?.current?.disabled}>
                                     <Send />
                                 </Button>
                             </div>

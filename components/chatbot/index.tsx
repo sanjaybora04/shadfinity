@@ -159,6 +159,11 @@ export default function Page() {
                             <td className="border border-muted-foreground p-2">List of selectable responses.</td>
                         </tr>
                         <tr>
+                            <td className="border border-muted-foreground p-2">render()</td>
+                            <td className="border border-muted-foreground p-2">(onSubmit)=&gt;ReactNode</td>
+                            <td className="border border-muted-foreground p-2">Used to render custom components, to submit and move to next step, use the onSubmit function, pass the string value and it will be available in validation and next function. (for example, check out the example code given above)</td>
+                        </tr>
+                        <tr>
                             <td className="border border-muted-foreground p-2">inputboxDisabled</td>
                             <td className="border border-muted-foreground p-2">boolean</td>
                             <td className="border border-muted-foreground p-2">Disables the input field.</td>
